@@ -3,18 +3,23 @@ package main;
 import java.util.*;
 
 public class ProductsImpl extends Product {
-    public Map<String, String> products;
+    private final Map<String, String> productsById;
 
-    public ProductsImpl(Map<String, String> products) {
+    private final Map<String, List<String>> productsByName;
+
+    public ProductsImpl(Map<String, String> productsById, Map<String, List<String>> productsByName) {
         super();
-        this.products = products;
+        this.productsById = productsById;
+        this.productsByName = productsByName;
     }
 
     public boolean addProduct(Product product) {
-
+        List<String> ids = new ArrayList<>();
         String productId = product.getId();
-        if (!products.containsKey(productId)) {
-            products.put(productId, product.getName());
+        if (!productsById.containsKey(productId)) {
+            productsById.put(productId, product.getName());
+            ids.add(productId);
+            productsByName.put(product.getName(), ids);
             return true;
         }
 
@@ -24,8 +29,9 @@ public class ProductsImpl extends Product {
     public boolean deleteProduct(Product product) {
 
         String productId = product.getId();
-        if (products.containsKey(productId)) {
-            products.remove(productId);
+        if (productsById.containsKey(productId)) {
+            productsById.remove(productId);
+            productsByName.remove(product.getName());
             return true;
         }
 
@@ -34,23 +40,19 @@ public class ProductsImpl extends Product {
 
     public String getName(String id) {
 
-        if (products.containsKey(id)) {
-            return products.get(id);
+        if (productsById.containsKey(id)) {
+            return productsById.get(id);
         }
 
         return "";
     }
 
     public List<String> findByName(String name) {
-        List<String> resultIdList = new ArrayList<>();
-
-        for (Map.Entry<String, String> entry : products.entrySet()) {
-            if(entry.getValue().equals(name)) {
-                resultIdList.add(entry.getKey());
-            }
+        if (productsByName.containsKey(name)) {
+            return productsByName.get(name);
         }
 
-        return resultIdList;
+        return Collections.emptyList();
     }
 
 }

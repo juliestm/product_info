@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ProductsImplTest {
 
-    private final ProductsImpl impl = new ProductsImpl(getTestMap());
+    private final ProductsImpl impl = new ProductsImpl(getTestMapById(), getTestMapByName());
 
     void addProductGetTrue() {
         Product product = new Product("5", "name5");
@@ -77,12 +77,21 @@ public class ProductsImplTest {
         }
     }
 
-    private Map<String, String> getTestMap() {
+    private Map<String, String> getTestMapById() {
         Map<String, String> resultMap = new HashMap<>();
         resultMap.put("1", "Name1");
         resultMap.put("2", "Name2");
         resultMap.put("3", "Name3");
         resultMap.put("4", "Name1");
+
+        return resultMap;
+    }
+
+    private Map<String, List<String>> getTestMapByName() {
+        Map<String, List<String>> resultMap = new HashMap<>();
+        resultMap.put("Name1", List.of("1", "4"));
+        resultMap.put("Name2", List.of("2"));
+        resultMap.put("Name3", List.of("3"));
 
         return resultMap;
     }
