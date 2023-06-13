@@ -13,17 +13,19 @@ public class ProductsImplTest {
     private final ProductsImpl impl = new ProductsImpl(getTestMapById(), getTestMapByName());
 
     void addProductGetTrue() {
-        Product product = new Product("5", "name5");
+        Product product = new Product("5", "Name5");
+        Product product1 = new Product("8", "Name5");
 
-        if (impl.addProduct(product)) {
+        if (impl.addProduct(product) && impl.addProduct(product1)) {
             System.out.println("Тест прошел: продукт добавлен");
         } else {
             System.out.println("НЕ ПРОШЕЛ ТЕСТ");
         }
     }
 
+
     void addProductGetFalse() {
-        Product product = new Product("1", "name1");
+        Product product = new Product("1", "Name1");
 
         if (!impl.addProduct(product)) {
             System.out.println("Тест прошел: продукт НЕ добавлен");
@@ -33,7 +35,7 @@ public class ProductsImplTest {
     }
 
     void deleteProductGetTrue() {
-        Product product = new Product("2", "name2");
+        Product product = new Product("2", "Name2");
 
         if (impl.deleteProduct(product)) {
             System.out.println("Тест прошел: продукт удален");
@@ -43,7 +45,7 @@ public class ProductsImplTest {
     }
 
     void deleteProductGetFalse() {
-        Product product = new Product("7", "name7");
+        Product product = new Product("7", "Name7");
 
         if (!impl.deleteProduct(product)) {
             System.out.println("Тест прошел: продукт НЕ удален");
@@ -68,6 +70,21 @@ public class ProductsImplTest {
         actualList.add("4");
 
         List<String> expectedList = impl.findByName("Name1");
+
+        if (expectedList.size() == 2 && expectedList.get(0).equals(actualList.get(0))
+                && expectedList.get(1).equals(actualList.get(1))) {
+            System.out.println("Тест прошел: получен список id продуктов");
+        } else {
+            System.out.println("НЕ ПРОШЕЛ ТЕСТ");
+        }
+    }
+
+    void findByName2() {
+        List<String> actualList = new ArrayList<>();
+        actualList.add("5");
+        actualList.add("8");
+
+        List<String> expectedList = impl.findByName("Name5");
 
         if (expectedList.size() == 2 && expectedList.get(0).equals(actualList.get(0))
                 && expectedList.get(1).equals(actualList.get(1))) {
@@ -103,6 +120,7 @@ public class ProductsImplTest {
         deleteProductGetFalse();
         getName();
         findByName();
+        findByName2();
     }
 
 }

@@ -16,10 +16,17 @@ public class ProductsImpl extends Product {
     public boolean addProduct(Product product) {
         List<String> ids = new ArrayList<>();
         String productId = product.getId();
+        String productName = product.getName();
         if (!productsById.containsKey(productId)) {
-            productsById.put(productId, product.getName());
-            ids.add(productId);
-            productsByName.put(product.getName(), ids);
+            productsById.put(productId, productName);
+
+            if (!productsByName.containsKey(productName)) {
+                ids.add(productId);
+                productsByName.put(product.getName(), ids);
+            } else {
+                productsByName.get(productName).add(productId);
+            }
+
             return true;
         }
 
