@@ -38,7 +38,7 @@ public class ProductsImpl extends Product {
         String productId = product.getId();
         if (productsById.containsKey(productId)) {
             productsById.remove(productId);
-            productsByName.remove(product.getName());
+            productsByName.get(product.getName()).remove(productId);
             return true;
         }
 
